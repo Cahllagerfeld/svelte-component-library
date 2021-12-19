@@ -1,6 +1,6 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-	import Button from './Button.svelte';
+	import Button from './button-cta.svelte';
 </script>
 
 <Meta title="Button" component={Button} />
@@ -9,4 +9,4 @@
 	<Button {...args} />
 </Template>
 
-<Story name="Default" args={{ color: 'cta', label: 'Text' }} />
+<Story name="Default" args={{ color: 'cta', label: 'Text' }} /> -->

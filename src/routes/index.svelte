@@ -1,8 +1,7 @@
 <script>
-	import { Button } from 'cahllagercomponents';
+	import { ButtonCTA } from 'cahllagercomponents';
 </script>
 
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-
-<Button color="cta" label="Hallo Welt" />
+<ButtonCTA on:click={() => alert('Hello Welt')}>Text</ButtonCTA>
