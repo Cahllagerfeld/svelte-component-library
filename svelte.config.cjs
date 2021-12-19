@@ -14,6 +14,13 @@ module.exports = {
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
+		package: {
+			exports: (file) => file === 'index.ts',
+			files: (filepath) => {
+				if (filepath.includes('stories') || filepath.startsWith('demo')) return false;
+				return true;
+			}
+		},
 		vite: {
 			server: {
 				hmr: {
