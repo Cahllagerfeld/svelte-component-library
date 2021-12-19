@@ -1,9 +1,11 @@
 <script lang="ts">
-	export let cta: boolean = false;
+	import type { ButtonColor } from './button.types';
+
+	export let color: ButtonColor;
 	export let label: string;
 </script>
 
-<button class="button" class:cta {...$$restProps}>{label}</button>
+<button class={`button ${color}`} {...$$restProps}>{label}</button>
 
 <style lang="postcss">
 	.button {

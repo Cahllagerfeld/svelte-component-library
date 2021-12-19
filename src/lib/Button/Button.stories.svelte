@@ -9,5 +9,4 @@
 	<Button {...args} />
 </Template>
 
-<Story name="Default" args={{ cta: false, label: 'Text' }} />
-<Story name="Call To Action" args={{ cta: true, label: 'Text' }} />
+<Story name="Default" args={{ color: 'cta', label: 'Text' }} />
