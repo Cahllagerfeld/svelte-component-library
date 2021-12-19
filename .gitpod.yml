@@ -1,3 +1,4 @@
+---
 # Learn more about this Gitpod configuration file in the documentation at https://www.gitpod.io/docs/configuration
 ports:
   - port: 3000
@@ -22,3 +23,4 @@ github:
 vscode:
   extensions:
     - svelte.svelte-vscode
+    - bradlc.vscode-tailwindcss
