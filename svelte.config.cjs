@@ -1,9 +1,8 @@
-import path from 'path';
-import adapter from '@sveltejs/adapter-auto';
-import preprocess from 'svelte-preprocess';
+const path = require('path');
+const preprocess = require('svelte-preprocess');
 
 /** @type {import('@sveltejs/kit').Config} */
-const config = {
+module.exports = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
 	preprocess: [
@@ -13,8 +12,6 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(),
-
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
 		vite: {
@@ -34,5 +31,3 @@ const config = {
 		}
 	}
 };
-
-export default config;

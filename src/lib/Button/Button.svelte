@@ -7,7 +7,7 @@
 
 <style lang="postcss">
 	.button {
-		@apply inline-block text-center font-semibold rounded-xl leading-4 bg-sand-dark px-6 py-2 shadow-light;
+		@apply inline-block text-center font-semibold rounded-xl leading-4 bg-sand-dark px-6 py-2 shadow-light border-none cursor-pointer;
 	}
 
 	.cta {
