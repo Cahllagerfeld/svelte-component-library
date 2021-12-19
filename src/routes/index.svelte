@@ -1,5 +1,5 @@
 <script>
-	import Button from '$lib/Button/Button.svelte';
+	import {Button} from 'cahllagercomponents';
 </script>
 
 <h1>Welcome to SvelteKit</h1>
