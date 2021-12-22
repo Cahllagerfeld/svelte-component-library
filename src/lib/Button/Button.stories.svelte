@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-	import Button from './button-cta.svelte';
+	import Button from './button.svelte';
 
 	const argTypes = {
-		color: { control: { type: 'select', options: ['primary', 'secondary', 'cta'] } }
+		variant: { control: { type: 'select', options: ['primary', 'secondary', 'cta'] } },
+		disabled: { control: { type: 'radio', options: [true, false] } }
 	};
 </script>
 
@@ -13,4 +14,4 @@
 	<Button {...args}>Button</Button>
 </Template>
 
-<Story name="Default" args={{ color: 'cta' }} />
+<Story name="CTA" args={{ variant: 'cta', disabled: false }} />
