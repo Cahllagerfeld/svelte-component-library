@@ -1,17 +1,16 @@
-<!-- <script lang="ts">
+<script lang="ts">
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Button from './button-cta.svelte';
 
 	const argTypes = {
-		color: { control: { type: 'select', options: ['primary', 'secondary', 'cta'] } },
-		label: { control: { type: 'text' } }
+		color: { control: { type: 'select', options: ['primary', 'secondary', 'cta'] } }
 	};
 </script>
 
-<Meta title="Button" component={Button} />
+<Meta title="Button" component={Button} {argTypes} />
 
 <Template let:args>
-	<Button {...args} />
+	<Button {...args}>Button</Button>
 </Template>
 
-<Story name="Default" {argTypes} args={{ color: 'cta', label: 'Hallo Welt' }} /> -->
+<Story name="Default" args={{ color: 'cta' }} />
