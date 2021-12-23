@@ -4,7 +4,7 @@
 
 	const argTypes = {
 		variant: { control: { type: 'select', options: ['primary', 'secondary', 'cta'] } },
-		disabled: { control: { type: 'radio', options: [true, false] } }
+		disabled: { control: { type: 'boolean' } }
 	};
 </script>
 
