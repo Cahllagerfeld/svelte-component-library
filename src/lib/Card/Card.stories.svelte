@@ -7,9 +7,9 @@
 	};
 </script>
 
-<Meta title="Card" component={Card} />
+<Meta title="Card" {argTypes} component={Card} />
 
-<Template {argTypes} let:args>
+<Template let:args>
 	<Card {...args}>
 		<div>This is a Card</div>
 	</Card>
