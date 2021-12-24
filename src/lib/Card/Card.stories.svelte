@@ -3,7 +3,7 @@
 	import Card from './Card.svelte';
 
 	const argTypes = {
-		variant: { control: { type: 'select', options: ['small', 'medium', 'large'] } }
+		variant: { control: { type: 'select', options: ['small', 'medium', 'large', 'extralarge'] } }
 	};
 </script>
 
@@ -18,3 +18,4 @@
 <Story name="Small" args={{ variant: 'small' }} />
 <Story name="Medium" args={{ variant: 'medium' }} />
 <Story name="Large" args={{ variant: 'large' }} />
+<Story name="Extra Large" args={{ variant: 'extralarge' }} />
