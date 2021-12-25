@@ -2,7 +2,7 @@
 	/**
 	 * Controls the border-radius of the component
 	 */
-	export let variant: 'small' | 'medium' | 'large';
+	export let variant: 'small' | 'medium' | 'large'| 'extralarge';
 </script>
 
 <div class="card card__{variant}">
@@ -24,5 +24,8 @@
 
 	.card__large {
 		@apply rounded-xl;
+	}
+	.card__extralarge{
+		@apply rounded-2xl
 	}
 </style>
