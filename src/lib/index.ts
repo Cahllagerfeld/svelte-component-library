@@ -1,3 +1,2 @@
-export { default as ButtonCTA } from './Button/button-cta.svelte';
-export { default as Button } from './Button/button.svelte';
-export * from './Card/Card';
+export * from './Button/button'
+export * from './Card/card';
