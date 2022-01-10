@@ -4,11 +4,24 @@ const config = {
 	theme: {
 		extend: {
 			colors: {
-				'brand-ripe': '#ff8a00',
-				'brand-almost-ripe': '#ffae33',
-				'sand-dark': '#ece7e5',
-				'sand-light': '#f5f4f4',
-				'off-white': '#f9f9f9'
+				black: '#12100C',
+				'dark-grey': '#565451',
+				'light-grey': '#999795',
+				'kumquat-ripe': '#FFAE33',
+				'kumquat-harvest': '#FF8A00',
+				'kumquat-almost-ripe': '#FFB45B',
+				'kumquat-light': '#FFE4BC',
+				salmon: '#FFB0AE',
+				'divider-grey': '#DADADA',
+				'sand-dark': '#ECE7E5',
+				'sand-light': '#F3F1F0',
+				'off-white': '#F9F9F9',
+				white: '#FFFFFF',
+				lila: '#A191E2',
+				background: '#F5F4F4'
+			},
+			backgroundImage: {
+				'gitpod-kumquat-gradient': 'linear-gradient(137.41deg, #FFAD33 14.37%, #FF8A00 91.32%)'
 			},
 			boxShadow: {
 				light: '0 1px 1px rgba(0, 0, 0, 0.1)'
