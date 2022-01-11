@@ -12,13 +12,15 @@ const config = {
 				'kumquat-almost-ripe': '#FFB45B',
 				'kumquat-light': '#FFE4BC',
 				salmon: '#FFB0AE',
+				'salmon-hover': '#ffc0be',
 				'divider-grey': '#DADADA',
 				'sand-dark': '#ECE7E5',
 				'sand-light': '#F3F1F0',
 				'off-white': '#F9F9F9',
 				white: '#FFFFFF',
 				lila: '#A191E2',
-				background: '#F5F4F4'
+				background: '#F5F4F4',
+				'black-hover': '#2d2d2d'
 			},
 			backgroundImage: {
 				'gitpod-kumquat-gradient': 'linear-gradient(137.41deg, #FFAD33 14.37%, #FF8A00 91.32%)'

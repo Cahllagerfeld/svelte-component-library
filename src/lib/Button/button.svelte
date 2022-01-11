@@ -1,7 +1,8 @@
 <script lang="ts">
-	export let variant: 'primary' | 'secondary' | 'cta';
+	import type { ButtonVariant } from './types';
 
-	export let disabled: boolean = false;
+	export let variant: ButtonVariant;
+	export let disabled: true | false = false;
 
 	let clazz = '';
 	export { clazz as class };
@@ -21,22 +22,25 @@
 	on:keypress
 	on:keydown
 	on:keyup
-	class="button {variant} {clazz ?? ''}"
+	class="inline-block text-center font-semibold rounded-xl leading-4 bg-sand-dark px-6 py-2 shadow-light border-none cursor-pointer {variant} {clazz}"
 	class:disabled
-	{disabled}
-	{...$$restProps}><slot /></button
+	{disabled}><slot /></button
 >
 
 <style lang="postcss">
-	.button {
-		@apply inline-block text-center font-semibold rounded-xl leading-4 bg-sand-dark px-6 py-2 shadow-light border-none cursor-pointer;
+	.primary {
+		@apply bg-kumquat-ripe hover:bg-kumquat-almost-ripe;
+	}
+
+	.secondary {
+		@apply bg-salmon hover:bg-salmon-hover;
 	}
 
 	.cta {
-		@apply hover:bg-brand-almost-ripe;
+		@apply bg-sand-dark hover:bg-kumquat-almost-ripe;
 	}
 
-	.disabled {
-		@apply pointer-events-none text-gray-400;
+	.tertiary {
+		@apply bg-black text-white hover:bg-black-hover;
 	}
 </style>
