@@ -13,3 +13,4 @@
 		<Button class="mb-2" variant="tertiary">Text</Button>
 	</Card>
 </div>
+<img src="/gopher.png" alt="gopher" />
