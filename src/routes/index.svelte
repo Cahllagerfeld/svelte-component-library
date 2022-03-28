@@ -14,3 +14,4 @@
 	</Card>
 </div>
 <img src="/gopher.png" alt="gopher" />
+<img src="/go.png" alt="go" />
