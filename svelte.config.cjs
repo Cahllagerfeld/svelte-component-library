@@ -24,6 +24,9 @@ module.exports = {
 			}
 		},
 		vite: {
+			optimizeDeps: {
+				include: ['highlight.js', 'highlight.js/lib/core']
+			},
 			server: {
 				hmr: {
 					clientPort: process.env.HMR_HOST ? 443 : 3000,

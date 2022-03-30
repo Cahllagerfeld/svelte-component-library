@@ -22,7 +22,7 @@
 	on:keypress
 	on:keydown
 	on:keyup
-	class="inline-block text-center font-semibold rounded-xl leading-4 bg-sand-dark px-6 py-2 shadow-light border-none cursor-pointer {variant} {clazz}"
+	class="inline-block text-center transition-all duration-200 font-semibold rounded-xl leading-4 bg-sand-dark px-6 py-2 shadow-light border-none cursor-pointer {variant} {clazz}"
 	class:disabled
 	{disabled}><slot /></button
 >
