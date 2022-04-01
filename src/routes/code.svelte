@@ -40,9 +40,9 @@
 	{@html github}
 </svelte:head>
 
-<div class="m-8">
+<div class="m-8 ">
 	<div class="bg-[#ece7e5]">
-		<div>
+		<div class="space-y-4">
 			<h2 on:click={toggleActive} class="text-bold text-lg cursor-pointer">Tasks</h2>
 			{#if active}
 				<div transition:slide={{ duration: 200 }} class="flex flex-col">
@@ -57,8 +57,10 @@
 						</div>
 					</div>
 				</div>
+				<div class="m-8">
+					<Button on:click={addTask} variant="primary">Add</Button>
+				</div>
 			{/if}
 		</div>
 	</div>
 </div>
-<Button on:click={addTask} variant="primary">Add</Button>

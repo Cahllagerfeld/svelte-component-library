@@ -3,16 +3,24 @@
 	import Button from '$lib/Button/button.svelte';
 
 	export let taskObject: Task = {};
-	let commandArray = [''];
 
-	const convertCommands = () => {
-		if (commandArray.length < 1) {
+	let commandArray = [''];
+	const convertCommands = (array) => {
+		if (array.length < 1) {
 			return;
 		}
-		return commandArray.join('\n');
+		const sanitizedStrings = array.filter((el) => el);
+		if (sanitizedStrings.length < 1) {
+			return;
+		}
+		let joinedCommands = sanitizedStrings.join('\n');
+		if (array.length > 1) {
+			joinedCommands = joinedCommands.concat('\n');
+		}
+		return joinedCommands;
 	};
 
-	$: taskObject.command = convertCommands();
+	$: taskObject.command = convertCommands(commandArray);
 
 	const addCommandTask = () => {
 		commandArray = [...commandArray, ''];
@@ -44,8 +52,8 @@
 	<div class="md:w-1/2 flex space-y-4 flex-col w-full">
 		<p>
 			Please define your command step. <br /> This command is the main command that runs once the
-			workspace started and doesn’t need to terminate. <br /><br />See a full description for this
-			step in our docs
+			workspace started and doesn’t need to terminate. Use this command for e.g starting your
+			project<br /><br />See a full description for this step in our docs
 			<a
 				class="hover:no-underline transition-all duration-200 underline"
 				href="https://www.gitpod.io/docs/references/gitpod-yml#tasksninit"
