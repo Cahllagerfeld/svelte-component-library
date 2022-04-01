@@ -25,6 +25,10 @@
 	const addCommandTask = () => {
 		commandArray = [...commandArray, ''];
 	};
+
+	const removeCommandTaskByIndex = (index: number) => {
+		commandArray = commandArray.filter((el, i) => i !== index);
+	};
 </script>
 
 <div
@@ -62,12 +66,21 @@
 			>
 		</p>
 
-		{#each commandArray as command}
-			<input
-				bind:value={command}
-				placeholder="Your start command e.g. 'npm run dev' "
-				class="font-mono mt-8 shadow-lg rounded-2xl px-4 w-full py-2"
-			/>
+		{#each commandArray as command, index}
+			<div class="flex items-center gap-4">
+				<input
+					bind:value={command}
+					placeholder="Your start command e.g. 'npm run dev' "
+					class="font-mono shadow-lg rounded-2xl px-4 w-full py-2"
+				/>
+				<button
+					on:click={() => {
+						removeCommandTaskByIndex(index);
+					}}
+				>
+					<img src="/trash.svg" alt="trash" width="24px" />
+				</button>
+			</div>
 		{/each}
 		<Button class="inline-block self-end" on:click={addCommandTask} variant="primary">+</Button>
 	</div>
