@@ -34,7 +34,7 @@
 <div
 	class="border-dashed border-4 border-spacing border-gray-800 border-collapse gap-8 m-8 p-4 flex"
 >
-	<div class="md:w-1/2 flex space-y-4 flex-col w-full">
+	<div class="md:w-1/2 flex justify-between space-y-4 flex-col w-full">
 		<p>
 			Please define your Init-Steps.<br /> This command will only run once, during the prebuild of
 			your project.Use this command for e.g installing your dependencies. <br /><br />See a full
@@ -52,8 +52,9 @@
 			placeholder="Your Init Script e.g. 'npm install' "
 			class="font-mono shadow-lg rounded-2xl px-4 w-full py-2"
 		/>
+		<Button class="inline-block self-end" on:click={addCommandTask} variant="primary">+</Button>
 	</div>
-	<div class="md:w-1/2 flex space-y-4 flex-col w-full">
+	<div class="md:w-1/2 justify-between flex space-y-4 flex-col w-full">
 		<p>
 			Please define your command step. <br /> This command is the main command that runs once the
 			workspace started and doesn’t need to terminate. Use this command for e.g starting your
@@ -78,7 +79,7 @@
 						removeCommandTaskByIndex(index);
 					}}
 				>
-					<img src="/trash.svg" alt="trash" width="24px" />
+					<img src="/trash.svg" alt="trash" width="32px" />
 				</button>
 			</div>
 		{/each}

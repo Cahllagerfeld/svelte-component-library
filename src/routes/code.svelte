@@ -47,13 +47,13 @@
 			{#if active}
 				<div transition:slide={{ duration: 200 }} class="flex flex-col">
 					<div class="flex justify-center items-center">
-						<div>
+						<div class="w-full md:w-3/4">
 							{#each config.tasks as task}
 								<Terminal bind:taskObject={task} />
 							{/each}
 						</div>
 						<div class="relative w-full md:w-1/4">
-							<Highlight language={yaml} code={yamlFile} />
+							<Highlight class="overflow-auto" language={yaml} code={yamlFile} />
 						</div>
 					</div>
 				</div>
