@@ -27,7 +27,7 @@
 	};
 
 	const removeCommandTaskByIndex = (index: number) => {
-		commandArray = commandArray.filter((el, i) => i !== index);
+		commandArray = commandArray.filter((_, i) => i !== index);
 	};
 </script>
 
