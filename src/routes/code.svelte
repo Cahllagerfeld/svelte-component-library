@@ -40,8 +40,8 @@
 	{@html github}
 </svelte:head>
 
-<div class="m-8 ">
-	<div class="bg-[#ece7e5]">
+<div class="m-8">
+	<div class="bg-[#ece7e5] p-4">
 		<div class="space-y-4">
 			<h2 on:click={toggleActive} class="text-bold text-lg cursor-pointer">Tasks</h2>
 			{#if active}
