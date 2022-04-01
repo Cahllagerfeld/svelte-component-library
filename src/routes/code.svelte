@@ -1,44 +1,66 @@
-<script>
+<script lang="ts">
 	import Highlight from 'svelte-highlight';
 	import yaml from 'svelte-highlight/languages/yaml';
-	import github from 'svelte-highlight/styles/gruvbox-dark-pale';
+	import github from 'svelte-highlight/styles/github-dark-dimmed';
+	import type { GitpodConfig } from '$lib/code/code';
+	import Button from '$lib/Button/button.svelte';
+	import Yaml from 'yaml';
+	import Terminal from '$lib/code/terminal.svelte';
 	import prettier from 'prettier/standalone';
 	import parser from 'prettier/esm/parser-yaml.mjs';
+	import { slide } from 'svelte/transition';
 
-	export const copy = () => {
-		navigator.clipboard.writeText(test);
+	let config: GitpodConfig = {
+		tasks: [{}]
 	};
 
-	const code = `apiVersion: xl-deploy/v1
-kind: Infrastructure
-spec:
-- name: Infrastructure/Apache  host
-  type: overthere.SshHost
-  os: UNIX
-  address: tomcat-host.local
-  username: tomcatuser
-- name: Infrastructure/local-docker
-  type: docker.Engine
-  dockerHost: http://dockerproxy:2375
-- name: aws
-  type: aws.Cloud
-  accesskey: YOUR ACCESS KEY
-  accessSecret: YOUR SECRET`;
+	let active: boolean = false;
 
-	$: test = prettier.format(code, { parser: 'yaml', plugins: [parser] });
+	const toggleActive = () => {
+		active = !active;
+	};
+
+	const addTask = async () => {
+		config.tasks = [...config.tasks, {}];
+	};
+
+	const convertJSONtoYaml = (obj: any) => {
+		const doc = new Yaml.Document();
+		doc.contents = obj;
+		return doc.toString();
+	};
+
+	$: yamlFile = prettier.format(convertJSONtoYaml(config), {
+		parser: 'yaml',
+		plugins: [parser]
+	});
 </script>
 
 <svelte:head>
 	{@html github}
 </svelte:head>
 
-<div class="justify-center flex">
-	<div class="relative">
-		<button
-			on:click={copy}
-			class="right-8 top-4 cursor-pointer bg-slate-500 p-2 hover:bg-slate-400 transition-all duration-200 rounded-lg absolute"
-			><img src="/copy.svg" alt="copy" width="24px" /></button
-		>
-		<Highlight language={yaml} code={test} />
+<div class="m-8">
+	<div class="bg-[#ece7e5] p-4">
+		<div class="space-y-4">
+			<h2 on:click={toggleActive} class="text-bold text-lg cursor-pointer">Tasks</h2>
+			{#if active}
+				<div transition:slide={{ duration: 200 }} class="flex flex-col">
+					<div class="flex justify-center items-center">
+						<div class="w-full md:w-3/4">
+							{#each config.tasks as task}
+								<Terminal bind:taskObject={task} />
+							{/each}
+						</div>
+						<div class="relative w-full md:w-1/4">
+							<Highlight class="overflow-auto" language={yaml} code={yamlFile} />
+						</div>
+					</div>
+				</div>
+				<div class="m-8">
+					<Button on:click={addTask} variant="primary">Add</Button>
+				</div>
+			{/if}
+		</div>
 	</div>
 </div>
