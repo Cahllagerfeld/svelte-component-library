@@ -8,14 +8,11 @@
 	import Terminal from '$lib/code/terminal.svelte';
 	import prettier from 'prettier/standalone';
 	import parser from 'prettier/esm/parser-yaml.mjs';
-	import { slide } from 'svelte/transition';
 	import Accordion from '$lib/code/accordion.svelte';
 
 	let config: GitpodConfig = {
 		tasks: [{}]
 	};
-
-	let active: boolean = false;
 
 	const addTask = async () => {
 		config.tasks = [...config.tasks, {}];
