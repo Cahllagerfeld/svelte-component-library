@@ -5,6 +5,7 @@
 	export let taskObject: Task = {};
 
 	let commandArray = [''];
+	let initArray = [''];
 	const convertCommands = (array) => {
 		if (array.length < 1) {
 			return;
@@ -21,9 +22,14 @@
 	};
 
 	$: taskObject.command = convertCommands(commandArray);
+	$: taskObject.init = convertCommands(initArray);
 
 	const addCommandTask = () => {
 		commandArray = [...commandArray, ''];
+	};
+
+	const addInitTask = () => {
+		initArray = [...initArray, ''];
 	};
 
 	const removeCommandTaskByIndex = (index: number) => {
@@ -47,12 +53,14 @@
 			>
 		</p>
 		<div class="flex gap-4 flex-col">
-			<input
-				bind:value={taskObject.init}
-				placeholder="Your Init Script e.g. 'npm install' "
-				class="font-mono shadow-lg rounded-2xl px-4 w-full py-2"
-			/>
-			<Button class="inline-block self-end" variant="primary">+</Button>
+			{#each initArray as init}
+				<input
+					bind:value={init}
+					placeholder="Your Init Script e.g. 'npm install' "
+					class="font-mono shadow-lg rounded-2xl px-4 w-full py-2"
+				/>
+			{/each}
+			<Button on:click={addInitTask} class="inline-block self-end" variant="primary">+</Button>
 		</div>
 	</div>
 	<div class="md:w-1/2 justify-between flex space-y-4 flex-col w-full">
