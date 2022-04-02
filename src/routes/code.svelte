@@ -9,6 +9,8 @@
 	import prettier from 'prettier/standalone';
 	import parser from 'prettier/esm/parser-yaml.mjs';
 	import Accordion from '$lib/code/accordion.svelte';
+	import OpenVSX from '$lib/code/open-vsx.svelte';
+	import OpenVsx from '$lib/code/open-vsx.svelte';
 
 	let config: GitpodConfig = {
 		tasks: [{}]
@@ -52,7 +54,9 @@
 					<Button on:click={addTask} variant="primary">Add</Button>
 				</div>
 			</Accordion>
-			<Accordion heading="TEST">TEST</Accordion>
+			<Accordion heading="TEST">
+				<OpenVsx />
+			</Accordion>
 		</div>
 	</div>
 </div>
