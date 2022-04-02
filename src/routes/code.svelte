@@ -8,16 +8,10 @@
 	import Terminal from '$lib/code/terminal.svelte';
 	import prettier from 'prettier/standalone';
 	import parser from 'prettier/esm/parser-yaml.mjs';
-	import { slide } from 'svelte/transition';
+	import Accordion from '$lib/code/accordion.svelte';
 
 	let config: GitpodConfig = {
 		tasks: [{}]
-	};
-
-	let active: boolean = false;
-
-	const toggleActive = () => {
-		active = !active;
 	};
 
 	const addTask = async () => {
@@ -41,26 +35,24 @@
 </svelte:head>
 
 <div class="m-8">
-	<div class="bg-[#ece7e5] p-4">
-		<div class="space-y-4">
-			<h2 on:click={toggleActive} class="text-bold text-lg cursor-pointer">Tasks</h2>
-			{#if active}
-				<div transition:slide={{ duration: 200 }} class="flex flex-col">
-					<div class="flex justify-center items-center">
-						<div class="w-full md:w-3/4">
-							{#each config.tasks as task}
-								<Terminal bind:taskObject={task} />
-							{/each}
-						</div>
-						<div class="relative w-full md:w-1/4">
-							<Highlight class="overflow-auto" language={yaml} code={yamlFile} />
-						</div>
+	<div class="min-h-screen ">
+		<div class="space-y-8">
+			<Accordion active={true} heading="Tasks">
+				<div class="flex justify-center items-center">
+					<div class="w-full md:w-3/4">
+						{#each config.tasks as task}
+							<Terminal bind:taskObject={task} />
+						{/each}
+					</div>
+					<div class="relative w-full md:w-1/4">
+						<Highlight class="overflow-auto" language={yaml} code={yamlFile} />
 					</div>
 				</div>
 				<div class="m-8">
 					<Button on:click={addTask} variant="primary">Add</Button>
 				</div>
-			{/if}
+			</Accordion>
+			<Accordion heading="TEST">TEST</Accordion>
 		</div>
 	</div>
 </div>
