@@ -9,18 +9,13 @@
 	let newData: VSXType.Extension[] = [];
 	let component: HTMLElement;
 	let search: string = '';
-	let oldSearch: number = 0;
 
 	onMount(async () => {
 		performSearch('');
 	});
 
 	const changeHandler = async () => {
-		if (search.length < oldSearch) {
-			skip = 0;
-		}
-
-		oldSearch = search.length;
+		skip = 0;
 		data = [];
 		newData = [];
 		performSearch(search);
@@ -59,9 +54,7 @@
 				window={true}
 				threshold={100}
 				on:loadMore={() => {
-					if (search.length === oldSearch) {
-						skip += 10;
-					}
+					skip += 10;
 					performSearch(search);
 				}}
 			/>
