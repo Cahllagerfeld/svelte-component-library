@@ -13,6 +13,7 @@
 		src={extension.files.icon ? extension.files.icon : '/gitpod-g.svg'}
 		alt={extension.name + ' icon'}
 	/>
-	<h3 class="text-lg truncate font-semibold" style="min-width: 0">{extension.displayName}</h3>
-	<p>{extension.averageRating}</p>
+	<h3 class="text-lg text-center truncate min-w-0 font-semibold">
+		{extension.displayName}
+	</h3>
 </div>

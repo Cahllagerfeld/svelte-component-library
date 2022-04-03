@@ -8,35 +8,63 @@
 	let data: VSXType.Extension[] = [];
 	let newData: VSXType.Extension[] = [];
 	let component: HTMLElement;
+	let search: string = '';
+	let oldSearch: number = 0;
 
 	onMount(async () => {
-		performSearch('YAML');
+		performSearch('');
 	});
 
-	const performSearch = async (string: string) => {
+	const changeHandler = async () => {
+		if (search.length < oldSearch) {
+			skip = 0;
+		}
+
+		oldSearch = search.length;
+		data = [];
+		newData = [];
+		performSearch(search);
+	};
+
+	const fetchData = async (search: string, offset: number) => {
 		const response = await fetch(
-			`https://open-vsx.org/api/-/search?query=${string}&size=10&sortBy=relevance&sortOrder=desc&offset=${skip}`
+			`https://open-vsx.org/api/-/search?query=${search}&size=10&sortBy=relevance&sortOrder=desc&offset=${offset}`
 		);
 		const data = (await response.json()) as VSXType.RootObject;
+		return data;
+	};
+
+	const performSearch = async (string: string) => {
+		const data = await fetchData(string, skip);
 		newData = data.extensions;
 	};
 
 	$: data = [...data, ...newData];
 </script>
 
-<div class="grid p-8 grid-cols-3 gap-4">
-	<div bind:this={component} class="grid grid-cols-3 gap-4">
-		{#each data as extension}
-			<OpenVsxExtension {extension} />
-		{/each}
-
-		<InfiniteScroll
-			window={true}
-			threshold={100}
-			on:loadMore={() => {
-				skip = skip + 10;
-				performSearch('YAML');
-			}}
+<div class="grid  p-8 grid-cols-3 gap-4">
+	<div class="flex flex-col gap-4">
+		<input
+			placeholder="search your extension"
+			class="shadow-lg rounded-2xl px-4 w-full py-2"
+			bind:value={search}
+			on:input={changeHandler}
 		/>
+		<div bind:this={component} class="grid  grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			{#each data as extension}
+				<OpenVsxExtension {extension} />
+			{/each}
+
+			<InfiniteScroll
+				window={true}
+				threshold={100}
+				on:loadMore={() => {
+					if (search.length === oldSearch) {
+						skip += 10;
+					}
+					performSearch(search);
+				}}
+			/>
+		</div>
 	</div>
 </div>
