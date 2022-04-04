@@ -5,10 +5,10 @@
 	export let hasMore: boolean = true;
 	export let elementScroll: HTMLElement = null;
 	export let window: boolean = false;
+	export let isLoadMore = false;
 
 	const dispatch = createEventDispatcher();
-	let referenceElement;
-	let isLoadMore = false;
+	let referenceElement: Document | HTMLElement | ParentNode;
 	let component: HTMLElement;
 
 	onMount(() => {
@@ -41,8 +41,6 @@
 			isLoadMore = false;
 		}
 	};
-
-	const calculateOffset = () => {};
 
 	onDestroy(() => {
 		if (referenceElement) {

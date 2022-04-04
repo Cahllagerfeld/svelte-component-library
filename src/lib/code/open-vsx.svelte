@@ -9,12 +9,14 @@
 	let newData: VSXType.Extension[] = [];
 	let component: HTMLElement;
 	let search: string = '';
+	let isLoadMore: boolean = false;
 
 	onMount(async () => {
 		performSearch('');
 	});
 
 	const changeHandler = async () => {
+		isLoadMore = false;
 		skip = 0;
 		data = [];
 		newData = [];
@@ -51,6 +53,7 @@
 			{/each}
 
 			<InfiniteScroll
+				bind:isLoadMore
 				window={true}
 				threshold={100}
 				on:loadMore={() => {
