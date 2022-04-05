@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Task } from './code';
+	import type { Task } from '$lib/code/code';
 	import Button from '$lib/Button/button.svelte';
 
 	export let taskObject: Task = {};
