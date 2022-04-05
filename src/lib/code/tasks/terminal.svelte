@@ -2,6 +2,8 @@
 	import type { Task } from '$lib/code/code';
 	import Init from '$lib/code/tasks/init.svelte';
 	import Command from '$lib/code/tasks/command.svelte';
+	import RadioGroup from '$lib/radio-group.svelte';
+	export let index: number;
 
 	export let taskObject: Task = {};
 </script>
@@ -16,3 +18,5 @@
 		<Command bind:taskObject />
 	</div>
 </div>
+
+<RadioGroup {index} />
