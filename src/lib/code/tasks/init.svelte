@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/Button/button.svelte';
-	import { convertCommands } from '$lib/util/convert-commands';
-	import type { Task } from '../code';
+	import { convertCommands } from '$lib/util/tasks';
+	import type { Task } from '$lib/code/code';
 	export let taskObject: Task;
 
 	$: taskObject.init = convertCommands(initArray);
