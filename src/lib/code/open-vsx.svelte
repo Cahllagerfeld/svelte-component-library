@@ -2,13 +2,14 @@
 	import InfiniteScroll from '$lib/infinite-scroll/infinite-scroll.svelte';
 	import { onMount } from 'svelte';
 	import OpenVsxExtension from './open-vsx-extension.svelte';
-	import type { OpenVsxExtension as VSXType } from './code';
+	import type { OpenVsxExtension as VSXType, GitpodConfig } from './code';
 	let skip: number = 0;
 	let data: VSXType.Extension[] = [];
 	let newData: VSXType.Extension[] = [];
 	let component: HTMLElement;
 	let search: string = '';
 	let isLoadMore: boolean = false;
+	export let config: GitpodConfig;
 
 	let selectedExtensions: Map<string, VSXType.Extension> = new Map();
 
@@ -46,16 +47,24 @@
 		selectedExtensions = selectedExtensions;
 	};
 
+	const convertMapToString = (map: Map<string, VSXType.Extension>) => {
+		const values = Array.from(map.values());
+		if (values.length < 1) return;
+		const extensions = values.map((extension) => `${extension.namespace}.${extension.name}`);
+		return extensions;
+	};
+
 	const performSearch = async (string: string) => {
 		const data = await fetchData(string, skip);
 		newData = data.extensions;
 	};
 
 	$: data = [...data, ...newData];
+	$: config.vscode.extensions = convertMapToString(selectedExtensions);
 </script>
 
-<div class="flex flex-wrap gap-4 p-8">
-	<div class="flex w-full md:w-1/3 flex-col gap-4">
+<div class="flex gap-4 flex-wrap md:flex-nowrap p-8">
+	<div class="flex w-full md:w-1/2 flex-col gap-4">
 		<input
 			placeholder="search your extension"
 			class="shadow-lg rounded-2xl px-4 w-full py-2"
@@ -89,7 +98,7 @@
 			/>
 		</div>
 	</div>
-	<div class="md:w-1/3 w-full">
+	<div class="md:w-1/2 w-full">
 		<div class="flex flex-col gap-4">
 			<div class="grid grid-cols-3 gap-4">
 				{#each [...selectedExtensions] as [_, extension]}
