@@ -4,7 +4,12 @@ export declare interface Task {
 }
 
 export declare interface GitpodConfig {
-	tasks: Task[];
+	tasks?: Task[];
+	vscode?: Vscode;
+}
+
+export interface Vscode {
+	extensions: string[];
 }
 
 declare module OpenVsxExtension {

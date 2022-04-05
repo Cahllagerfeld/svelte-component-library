@@ -10,10 +10,12 @@
 	import parser from 'prettier/esm/parser-yaml.mjs';
 	import Accordion from '$lib/code/accordion.svelte';
 	import OpenVSX from '$lib/code/open-vsx.svelte';
-	import OpenVsx from '$lib/code/open-vsx.svelte';
 
 	let config: GitpodConfig = {
-		tasks: [{}]
+		tasks: [{}],
+		vscode: {
+			extensions: []
+		}
 	};
 
 	const addTask = async () => {
@@ -55,7 +57,7 @@
 				</div>
 			</Accordion>
 			<Accordion heading="TEST">
-				<OpenVsx />
+				<OpenVSX bind:config />
 			</Accordion>
 		</div>
 	</div>
