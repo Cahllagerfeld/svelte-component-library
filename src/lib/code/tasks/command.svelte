@@ -1,0 +1,44 @@
+<script lang="ts">
+	import Button from '$lib/Button/button.svelte';
+	import { convertCommands, removeCommandTaskByIndex } from '$lib/util/tasks';
+	import type { Task } from '../code';
+	export let taskObject: Task;
+
+	let commandArray = [''];
+
+	$: taskObject.command = convertCommands(commandArray);
+
+	const addCommandTask = () => {
+		commandArray = [...commandArray, ''];
+	};
+</script>
+
+<p>
+	Please define your command step. <br /> This command is the main command that runs once the
+	workspace started and doesn’t need to terminate. Use this command for e.g starting your project<br
+	/><br />See a full description for this step in our docs
+	<a
+		class="hover:no-underline transition-all duration-200 underline"
+		href="https://www.gitpod.io/docs/references/gitpod-yml#tasksninit"
+	>
+		in our docs</a
+	>
+</p>
+
+{#each commandArray as command, index}
+	<div class="flex items-center gap-4">
+		<input
+			bind:value={command}
+			placeholder="Your start command e.g. 'npm run dev' "
+			class="font-mono shadow-lg rounded-2xl px-4 w-full py-2"
+		/>
+		<button
+			on:click={() => {
+				removeCommandTaskByIndex(commandArray, index);
+			}}
+		>
+			<img src="/trash.svg" alt="trash" width="32px" />
+		</button>
+	</div>
+{/each}
+<Button class="inline-block self-end" on:click={addCommandTask} variant="primary">+</Button>

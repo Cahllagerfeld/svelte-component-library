@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { OpenVsxExtension } from './code';
+	import type { OpenVsxExtension } from '$lib/code/code';
 
 	export let extension: OpenVsxExtension.Extension;
 	export let checked: boolean = false;
