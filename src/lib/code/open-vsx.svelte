@@ -32,6 +32,15 @@
 		return data;
 	};
 
+	const handleInput = (extension: VSXType.Extension) => {
+		if (selectedExtensions.has(extension.url)) {
+			selectedExtensions.delete(extension.url);
+			selectedExtensions = selectedExtensions;
+		} else {
+			selectedExtensions = selectedExtensions.set(extension.url, extension);
+		}
+	};
+
 	const performSearch = async (string: string) => {
 		const data = await fetchData(string, skip);
 		newData = data.extensions;
@@ -41,7 +50,6 @@
 </script>
 
 <div class="grid  p-8 grid-cols-3 gap-4">
-	{JSON.stringify(Array.from(selectedExtensions.values()))}
 	<div class="flex flex-col gap-4">
 		<input
 			placeholder="search your extension"
@@ -50,15 +58,10 @@
 			on:input={changeHandler}
 		/>
 		<div bind:this={component} class="grid  grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4">
-			{#each data as extension (extension.url)}
+			{#each data as extension}
 				<input
 					on:input={() => {
-						if (selectedExtensions.has(extension.url)) {
-							selectedExtensions.delete(extension.url);
-							selectedExtensions = selectedExtensions;
-						} else {
-							selectedExtensions = selectedExtensions.set(extension.url, extension);
-						}
+						handleInput(extension);
 					}}
 					value={extension}
 					type="checkbox"
