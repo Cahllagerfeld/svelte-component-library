@@ -41,6 +41,11 @@
 		}
 	};
 
+	const handleSelected = (extension: VSXType.Extension) => {
+		selectedExtensions.delete(extension.url);
+		selectedExtensions = selectedExtensions;
+	};
+
 	const performSearch = async (string: string) => {
 		const data = await fetchData(string, skip);
 		newData = data.extensions;
@@ -49,8 +54,8 @@
 	$: data = [...data, ...newData];
 </script>
 
-<div class="grid  p-8 grid-cols-3 gap-4">
-	<div class="flex flex-col gap-4">
+<div class="flex flex-wrap gap-4 p-8">
+	<div class="flex w-full md:w-1/3 flex-col gap-4">
 		<input
 			placeholder="search your extension"
 			class="shadow-lg rounded-2xl px-4 w-full py-2"
@@ -82,6 +87,25 @@
 					performSearch(search);
 				}}
 			/>
+		</div>
+	</div>
+	<div class="md:w-1/3 w-full">
+		<div class="flex flex-col gap-4">
+			<div class="grid grid-cols-3 gap-4">
+				{#each [...selectedExtensions] as [_, extension]}
+					<input
+						class="hidden"
+						id={extension.name}
+						type="checkbox"
+						on:input={() => {
+							handleSelected(extension);
+						}}
+					/>
+					<label for={extension.name}>
+						<OpenVsxExtension {extension} checked={selectedExtensions.has(extension.url)} /></label
+					>
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>
