@@ -9,12 +9,7 @@
 	import Tasks from '$lib/code/tasks/tasks.svelte';
 	let yamlInput: string = '';
 
-	let backup: GitpodConfig = {
-		tasks: [{}],
-		vscode: {
-			extensions: []
-		}
-	};
+	let backup: GitpodConfig = {};
 
 	let config: GitpodConfig = {};
 

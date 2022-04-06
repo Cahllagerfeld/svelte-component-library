@@ -1,13 +1,14 @@
 <script lang="ts">
 	import Button from '$lib/Button/button.svelte';
 	import { convertCommands } from '$lib/util/tasks';
-	export let initSteps: string | undefined = '';
+	export let initSteps: string | undefined;
 
 	let initArray = [''];
 
 	$: {
-		if (!initSteps) initSteps = '';
-		initArray = initSteps.split('\n').filter((el) => el);
+		if (initSteps) {
+			initArray = initSteps.split('\n').filter((el) => el);
+		}
 	}
 	const inputHandler = () => {
 		initSteps = convertCommands(initArray);

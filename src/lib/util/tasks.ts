@@ -1,6 +1,6 @@
 export const convertCommands = (array: String[]) => {
 	if (array.length < 1) {
-		return;
+		return undefined;
 	}
 	const sanitizedStrings = array.filter((el) => el);
 	if (sanitizedStrings.length < 1) {

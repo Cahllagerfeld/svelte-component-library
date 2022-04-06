@@ -5,8 +5,9 @@
 
 	let commandArray = [''];
 	$: {
-		if (!commandSteps) commandSteps = '';
-		commandArray = commandSteps.split('\n').filter((el) => el);
+		if (commandSteps) {
+			commandArray = commandSteps.split('\n').filter((el) => el);
+		}
 	}
 
 	const inputHandler = () => {

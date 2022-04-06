@@ -7,6 +7,12 @@
 	export let config: GitpodConfig;
 	export let yamlFile: string;
 
+	$: {
+		if (!config.tasks) {
+			config.tasks = [{}];
+		}
+	}
+
 	const addTask = async () => {
 		config.tasks = [...config.tasks, {}];
 	};
