@@ -12,10 +12,10 @@
 <div class="border-dashed border-4 border-spacing border-gray-800 border-collapse gap-8 m-8 p-4 ">
 	<div class="flex">
 		<div class:hidden={step !== 'init'} class="flex justify-between space-y-4 flex-col w-full">
-			<Init bind:taskObject />
+			<Init bind:initSteps={taskObject.init} />
 		</div>
 		<div class:hidden={step !== 'command'} class="justify-between flex space-y-4 flex-col w-full">
-			<Command bind:taskObject />
+			<Command bind:commandSteps={taskObject.command} />
 		</div>
 	</div>
 	<div class="text-center">

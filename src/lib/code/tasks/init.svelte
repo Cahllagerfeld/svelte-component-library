@@ -1,11 +1,17 @@
 <script lang="ts">
 	import Button from '$lib/Button/button.svelte';
 	import { convertCommands } from '$lib/util/tasks';
-	import type { Task } from '$lib/code/code';
-	export let taskObject: Task;
+	export let initSteps: string | undefined = '';
 
-	$: taskObject.init = convertCommands(initArray);
 	let initArray = [''];
+
+	$: {
+		if (!initSteps) initSteps = '';
+		initArray = initSteps.split('\n').filter((el) => el);
+	}
+	const inputHandler = () => {
+		initSteps = convertCommands(initArray);
+	};
 	const addInitTask = () => {
 		initArray = [...initArray, ''];
 	};
@@ -26,6 +32,7 @@
 	{#each initArray as init}
 		<input
 			bind:value={init}
+			on:input={inputHandler}
 			placeholder="Your Init Script e.g. 'npm install' "
 			class="font-mono shadow-lg rounded-2xl px-4 w-full py-2"
 		/>

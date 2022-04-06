@@ -12,7 +12,3 @@ export const convertCommands = (array: String[]) => {
 	}
 	return joinedCommands;
 };
-
-export const removeCommandTaskByIndex = (array: String[], index: number) => {
-	array = array.filter((_, i) => i !== index);
-};

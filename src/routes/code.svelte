@@ -7,20 +7,31 @@
 	import Accordion from '$lib/code/accordion.svelte';
 	import OpenVSX from '$lib/code/open-vsx/open-vsx.svelte';
 	import Tasks from '$lib/code/tasks/tasks.svelte';
+	let yamlInput: string = '';
 
-	let config: GitpodConfig = {
+	let backup: GitpodConfig = {
 		tasks: [{}],
 		vscode: {
 			extensions: []
 		}
 	};
 
+	let config: GitpodConfig = {};
+
 	const convertJSONtoYaml = (obj: any) => {
 		const doc = new Yaml.Document();
 		doc.contents = obj;
-		return doc.toString();
+		return doc.toString({ lineWidth: -1 });
 	};
 
+	$: {
+		const parsed = Yaml.parse(yamlInput);
+		if (parsed) {
+			config = parsed;
+		} else {
+			config = backup;
+		}
+	}
 	$: yamlFile = prettier.format(convertJSONtoYaml(config), {
 		parser: 'yaml',
 		plugins: [parser]
@@ -32,6 +43,7 @@
 </svelte:head>
 
 <div class="m-8">
+	<textarea bind:value={yamlInput} class="mono bg-slate-50" rows="20" cols="150" />
 	<div class="min-h-screen ">
 		<div class="space-y-8">
 			<Accordion active={true} heading="Tasks">
