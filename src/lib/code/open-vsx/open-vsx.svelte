@@ -2,7 +2,7 @@
 	import InfiniteScroll from '$lib/infinite-scroll/infinite-scroll.svelte';
 	import { onMount } from 'svelte';
 	import OpenVsxExtension from './open-vsx-extension.svelte';
-	import type { OpenVsxExtension as VSXType, GitpodConfig } from './code';
+	import type { OpenVsxExtension as VSXType, GitpodConfig } from '../code';
 	let skip: number = 0;
 	let data: VSXType.Extension[] = [];
 	let newData: VSXType.Extension[] = [];
