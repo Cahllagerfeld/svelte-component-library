@@ -1,9 +1,8 @@
-const path = require('path');
-const preprocess = require('svelte-preprocess');
-// const adapter = require('@sveltejs/adapter-netlify');
+import path from 'path';
+import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
-module.exports = {
+const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
 	preprocess: [
@@ -15,7 +14,6 @@ module.exports = {
 	kit: {
 		// adapter: adapter(),
 		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte',
 		package: {
 			exports: (file) => file === 'index.ts',
 			files: (filepath) => {
@@ -43,3 +41,4 @@ module.exports = {
 		}
 	}
 };
+export default config;
