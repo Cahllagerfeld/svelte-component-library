@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/Button/button.svelte';
 	import { convertCommands } from '$lib/util/tasks';
-	export let commandSteps: string | undefined;
+	export let commandSteps: string | undefined = undefined;
 
 	let commandArray = [''];
 	$: {
