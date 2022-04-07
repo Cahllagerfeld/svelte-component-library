@@ -4,6 +4,8 @@
 	import Yaml from 'yaml';
 	import prettier from 'prettier/standalone.js';
 	import parser from 'prettier/esm/parser-yaml.mjs';
+	import Highlight from 'svelte-highlight';
+	import yaml from 'svelte-highlight/languages/yaml';
 	import Accordion from '$lib/code/accordion.svelte';
 	import OpenVSX from '$lib/code/open-vsx/open-vsx.svelte';
 	import Tasks from '$lib/code/tasks/tasks.svelte';
@@ -37,16 +39,25 @@
 	{@html github}
 </svelte:head>
 
-<div class="m-8">
-	<textarea bind:value={yamlInput} class="mono bg-slate-50" rows="20" cols="150" />
-	<div class="min-h-screen ">
-		<div class="space-y-8">
-			<Accordion active={true} heading="Tasks">
-				<Tasks bind:config bind:yamlFile />
-			</Accordion>
-			<Accordion heading="TEST">
-				<OpenVSX bind:config />
-			</Accordion>
+<div class="m-8 container mx-auto">
+	<div class="flex gap-4 overflow-visible">
+		<div class="w-2/3">
+			<textarea bind:value={yamlInput} class="mono bg-slate-50 w-full" rows="10" />
+			<div>
+				<div class="space-y-8">
+					<Accordion active={true} heading="Tasks">
+						<Tasks bind:config />
+					</Accordion>
+					<Accordion heading="TEST">
+						<OpenVSX bind:config />
+					</Accordion>
+				</div>
+			</div>
+		</div>
+		<div class="w-1/3 sticky self-start top-0">
+			<div class="relative w-full">
+				<Highlight class="overflow-auto" language={yaml} code={yamlFile} />
+			</div>
 		</div>
 	</div>
 </div>
