@@ -2,14 +2,14 @@
 	import github from 'svelte-highlight/styles/github-dark-dimmed';
 	import type { GitpodConfig } from '$lib/code/code';
 	import Yaml from 'yaml';
-	import prettier from "prettier/standalone.js";
+	import prettier from 'prettier/standalone.js';
 	import parser from 'prettier/esm/parser-yaml.mjs';
 	import Accordion from '$lib/code/accordion.svelte';
 	import OpenVSX from '$lib/code/open-vsx/open-vsx.svelte';
 	import Tasks from '$lib/code/tasks/tasks.svelte';
 	let yamlInput: string = '';
 
-	let backup: GitpodConfig = {};
+	let backup: GitpodConfig = { vscode: { extensions: [] } };
 
 	let config: GitpodConfig = {};
 
