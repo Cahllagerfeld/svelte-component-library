@@ -39,12 +39,14 @@
 	{@html github}
 </svelte:head>
 
-<div class="m-8 container mx-auto">
+<div class="m-8">
 	<div class="flex gap-4 overflow-visible">
 		<div class="w-2/3">
-			<textarea bind:value={yamlInput} class="mono bg-slate-50 w-full" rows="10" />
 			<div>
 				<div class="space-y-8">
+					<Accordion heading="Paste your YAML">
+						<textarea bind:value={yamlInput} class="mono m-4 bg-slate-50 " rows="10" />
+					</Accordion>
 					<Accordion active={true} heading="Tasks">
 						<Tasks bind:config />
 					</Accordion>

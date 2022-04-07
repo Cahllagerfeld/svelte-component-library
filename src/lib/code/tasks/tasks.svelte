@@ -6,7 +6,11 @@
 
 	$: {
 		if (!config.tasks) {
-			config.tasks = [{}];
+			try {
+				config.tasks = [{}];
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	}
 

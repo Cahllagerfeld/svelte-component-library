@@ -1,6 +1,7 @@
 <script lang="ts">
 	import InfiniteScroll from '$lib/infinite-scroll/infinite-scroll.svelte';
 	import { onMount } from 'svelte';
+	import debounce from 'lodash.debounce';
 	import OpenVsxExtension from './open-vsx-extension.svelte';
 	import type { OpenVsxExtension as VSXType, GitpodConfig } from '../code';
 	let skip: number = 0;
@@ -41,6 +42,12 @@
 			selectedExtensions = selectedExtensions.set(extension.url, extension);
 		}
 	};
+	const performSearch = async (string: string) => {
+		const data = await fetchData(string, skip);
+		newData = data.extensions;
+	};
+
+	const debouncedSearch = debounce(changeHandler, 500);
 
 	const handleSelected = (extension: VSXType.Extension) => {
 		selectedExtensions.delete(extension.url);
@@ -54,11 +61,6 @@
 		return extensions;
 	};
 
-	const performSearch = async (string: string) => {
-		const data = await fetchData(string, skip);
-		newData = data.extensions;
-	};
-
 	$: data = [...data, ...newData];
 	$: config.vscode.extensions = convertMapToString(selectedExtensions);
 </script>
@@ -69,7 +71,7 @@
 			placeholder="search your extension"
 			class="shadow-lg rounded-2xl px-4 w-full py-2"
 			bind:value={search}
-			on:input={changeHandler}
+			on:input={debouncedSearch}
 		/>
 		<div bind:this={component} class="grid  grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4">
 			{#each data as extension}
