@@ -1,26 +1,13 @@
 <script lang="ts">
 	import Button from '$lib/Button/button.svelte';
-	import { convertCommands } from '$lib/util/tasks';
-	export let commandSteps: string | undefined = undefined;
-
-	let commandArray = [''];
-	$: {
-		if (commandSteps) {
-			commandArray = commandSteps.split('\n').filter((el) => el);
-		}
-	}
-
-	const inputHandler = () => {
-		commandSteps = convertCommands(commandArray);
-	};
+	export let commandSteps: string[] = [];
 
 	const addCommandTask = () => {
-		commandArray = [...commandArray, ''];
+		commandSteps = [...commandSteps, ''];
 	};
 
 	const removeCommandTaskByIndex = (index: number) => {
-		commandArray = commandArray.filter((__dirname, i) => i !== index);
-		inputHandler();
+		commandSteps = commandSteps.filter((_, i) => i !== index);
 	};
 </script>
 
@@ -36,11 +23,10 @@
 	>
 </p>
 
-{#each commandArray as command, index}
+{#each commandSteps as command, index}
 	<div class="flex items-center gap-4">
 		<input
 			bind:value={command}
-			on:input={inputHandler}
 			placeholder="Your start command e.g. 'npm run dev' "
 			class="font-mono shadow-lg rounded-2xl px-4 w-full py-2"
 		/>

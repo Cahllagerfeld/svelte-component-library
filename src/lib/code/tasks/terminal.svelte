@@ -15,7 +15,7 @@
 			<Init bind:initSteps={taskObject.init} />
 		</div>
 		<div class:hidden={step !== 'command'} class="justify-between flex space-y-4 flex-col w-full">
-			<!-- <Command bind:commandSteps={taskObject.command} /> -->
+			<Command bind:commandSteps={taskObject.command} />
 		</div>
 	</div>
 	<div class="text-center">

@@ -38,12 +38,9 @@
 				command
 			};
 		});
-		console.log(converted);
 
 		return converted;
 	};
-
-	console.log(prepareConfig(config));
 
 	$: yamlFile = prettier.format(convertJSONtoYaml(prepareConfig(config)), {
 		parser: 'yaml',
