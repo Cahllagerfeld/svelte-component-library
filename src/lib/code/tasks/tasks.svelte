@@ -6,16 +6,12 @@
 
 	$: {
 		if (!config.tasks) {
-			try {
-				config.tasks = [{}];
-			} catch (e) {
-				console.log(e);
-			}
+			config.tasks = [{}];
 		}
 	}
 
 	const addTask = async () => {
-		config.tasks = [...config.tasks, {}];
+		config.tasks = [...config.tasks, { init: [], command: [] }];
 	};
 </script>
 

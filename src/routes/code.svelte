@@ -1,6 +1,6 @@
 <script lang="ts">
 	import github from 'svelte-highlight/styles/github-dark-dimmed';
-	import type { GitpodConfig } from '$lib/code/code';
+	import type { ConvertedConfig, GitpodConfig } from '$lib/code/code';
 	import Yaml from 'yaml';
 	import prettier from 'prettier/standalone.js';
 	import parser from 'prettier/esm/parser-yaml.mjs';
@@ -11,8 +11,6 @@
 	import Tasks from '$lib/code/tasks/tasks.svelte';
 	let yamlInput: string = '';
 
-	let backup: GitpodConfig = { vscode: { extensions: [] } };
-
 	let config: GitpodConfig = {};
 
 	const convertJSONtoYaml = (obj: any) => {
@@ -21,15 +19,33 @@
 		return doc.toString({ lineWidth: -1 });
 	};
 
-	$: {
-		const parsed = Yaml.parse(yamlInput);
-		if (parsed) {
-			config = parsed;
-		} else {
-			config = backup;
-		}
-	}
-	$: yamlFile = prettier.format(convertJSONtoYaml(config), {
+	const prepareConfig = (obj: GitpodConfig): ConvertedConfig => {
+		const converted: ConvertedConfig = {};
+
+		converted.tasks = obj.tasks?.map((task) => {
+			let init = task.init?.filter((el) => el).join('\n');
+			if (task.init?.length > 1) {
+				init = init.concat('\n');
+			}
+			if (init === '') init = undefined;
+			let command = task.command?.filter((el) => el).join('\n');
+			if (task.command?.length > 1) {
+				command = command.concat('\n');
+			}
+			if (command === '') command = undefined;
+			return {
+				init,
+				command
+			};
+		});
+		console.log(converted);
+
+		return converted;
+	};
+
+	console.log(prepareConfig(config));
+
+	$: yamlFile = prettier.format(convertJSONtoYaml(prepareConfig(config)), {
 		parser: 'yaml',
 		plugins: [parser]
 	});
