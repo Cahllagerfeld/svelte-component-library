@@ -11,6 +11,7 @@
 	import Tasks from '$lib/code/tasks/tasks.svelte';
 	import Button from '$lib/Button/button.svelte';
 	import { validate } from '$lib/util/json-validate';
+	import { convertExtensionToInternal, convertTaskToInternal } from '$lib/util/converter';
 	let yamlInput: string = '';
 
 	let config: GitpodConfig = {};
@@ -24,24 +25,18 @@
 	const convertYaml = async () => {
 		const parsedConfig: GitpodConfig = {};
 		const yaml = Yaml.parse(yamlInput) as ConvertedConfig;
+		//validation
 		if (!yaml) return;
 		if (!validate(yaml)) {
 			console.log(validate.errors);
 			return;
 		}
-
 		//tasks
 		if (yaml.tasks) {
 			parsedConfig.tasks = yaml.tasks?.map((task) => {
-				let init = task.init?.split('\n').filter((el) => el);
-				let command = task.command?.split('\n').filter((el) => el);
-				return {
-					init,
-					command
-				};
+				return convertTaskToInternal(task);
 			});
 		}
-
 		//extensions
 		if (yaml.vscode) {
 			parsedConfig.vscode = { extensions: new Map() };
@@ -49,37 +44,13 @@
 			await Promise.all(
 				yaml.vscode.extensions.map(async (extension) => {
 					try {
-						await convertExtension(extension, extensionMap);
+						await convertExtensionToInternal(extension, extensionMap);
 					} catch (e) {}
 				})
 			);
-
 			parsedConfig.vscode.extensions = extensionMap;
 		}
 		config = parsedConfig;
-	};
-
-	const convertExtension = async (
-		extension: string,
-		map: Map<string, OpenVsxExtension.Extension>
-	) => {
-		const splitExtension = extension.split('.');
-		const url = `https://open-vsx.org/api/${splitExtension[0]}/${splitExtension[1]}`;
-		const resp = await fetch(url);
-		const data = (await resp.json()) as VSXDetailResponse.RootObject;
-
-		map.set(url, {
-			version: data.version,
-			name: data.name,
-			url,
-			averageRating: data.averageRating,
-			displayName: data.displayName,
-			namespace: data.namespace,
-			timestamp: data.timestamp,
-			files: {
-				icon: data.files.icon
-			}
-		});
 	};
 
 	const prepareConfig = (obj: GitpodConfig): ConvertedConfig => {
