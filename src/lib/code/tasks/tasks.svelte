@@ -4,22 +4,19 @@
 	import type { GitpodConfig } from '../code';
 	export let config: GitpodConfig;
 
-	$: {
-		if (!config.tasks) {
-			config.tasks = [{}];
-		}
-	}
-
 	const addTask = async () => {
+		if (!config.tasks) config.tasks = [];
 		config.tasks = [...config.tasks, { init: [], command: [] }];
 	};
 </script>
 
 <div class="flex justify-center items-center">
 	<div class="w-full">
-		{#each config.tasks as task, index}
-			<Terminal {index} bind:taskObject={task} />
-		{/each}
+		{#if config.tasks}
+			{#each config.tasks as task, index}
+				<Terminal {index} bind:taskObject={task} />
+			{/each}
+		{/if}
 	</div>
 </div>
 <div class="m-8">
