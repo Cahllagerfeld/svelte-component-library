@@ -141,7 +141,7 @@
 					<Accordion active={true} heading="Tasks">
 						<Tasks bind:config />
 					</Accordion>
-					<Accordion heading="TEST">
+					<Accordion heading="Extensions">
 						<OpenVSX bind:config />
 					</Accordion>
 				</div>
