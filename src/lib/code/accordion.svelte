@@ -8,7 +8,7 @@
 	};
 </script>
 
-<div class="bg-[#ece7e5]">
+<div class="bg-[#ece7e5] shadow-lg rounded-2xl">
 	<h2 on:click={toggleActive} class="text-bold text-lg p-4 cursor-pointer">{@html heading}</h2>
 	{#if active}
 		<div transition:slide={{ duration: 200 }} class="flex flex-col">
