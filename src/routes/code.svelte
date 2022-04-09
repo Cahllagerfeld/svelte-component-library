@@ -1,6 +1,6 @@
 <script lang="ts">
 	import github from 'svelte-highlight/styles/github-dark-dimmed';
-	import type { ConvertedConfig, GitpodConfig } from '$lib/code/code';
+	import type { ConvertedConfig, GitpodConfig, OpenVsxExtension } from '$lib/code/code';
 	import Yaml from 'yaml';
 	import prettier from 'prettier/standalone.js';
 	import parser from 'prettier/esm/parser-yaml.mjs';
@@ -9,6 +9,7 @@
 	import Accordion from '$lib/code/accordion.svelte';
 	import OpenVSX from '$lib/code/open-vsx/open-vsx.svelte';
 	import Tasks from '$lib/code/tasks/tasks.svelte';
+	import Button from '$lib/Button/button.svelte';
 	let yamlInput: string = '';
 
 	let config: GitpodConfig = {};
@@ -17,6 +18,63 @@
 		const doc = new Yaml.Document();
 		doc.contents = obj;
 		return doc.toString({ lineWidth: -1 });
+	};
+
+	const convertYaml = async () => {
+		const parsedConfig: GitpodConfig = {};
+		const yaml = Yaml.parse(yamlInput) as ConvertedConfig;
+		if (!yaml) return;
+
+		//tasks
+		if (yaml.tasks) {
+			parsedConfig.tasks = yaml.tasks?.map((task) => {
+				let init = task.init?.split('\n').filter((el) => el);
+				let command = task.command?.split('\n').filter((el) => el);
+				return {
+					init,
+					command
+				};
+			});
+		}
+
+		//extensions
+		if (yaml.vscode) {
+			parsedConfig.vscode = { extensions: new Map() };
+			const extensionMap = new Map<string, OpenVsxExtension.Extension>();
+			await Promise.all(
+				yaml.vscode.extensions.map(async (extension) => {
+					try {
+						await convertExtension(extension, extensionMap);
+					} catch (e) {}
+				})
+			);
+
+			parsedConfig.vscode.extensions = extensionMap;
+		}
+		config = parsedConfig;
+	};
+
+	const convertExtension = async (
+		extension: string,
+		map: Map<string, OpenVsxExtension.Extension>
+	) => {
+		const splitExtension = extension.split('.');
+		const url = `https://open-vsx.org/api/${splitExtension[0]}/${splitExtension[1]}`;
+		const resp = await fetch(url);
+		const data = (await resp.json()) as VSXDetailResponse.RootObject;
+
+		map.set(url, {
+			version: data.version,
+			name: data.name,
+			url,
+			averageRating: data.averageRating,
+			displayName: data.displayName,
+			namespace: data.namespace,
+			timestamp: data.timestamp,
+			files: {
+				icon: data.files.icon
+			}
+		});
 	};
 
 	const prepareConfig = (obj: GitpodConfig): ConvertedConfig => {
@@ -68,7 +126,12 @@
 			<div>
 				<div class="space-y-8">
 					<Accordion heading="Paste your YAML">
-						<textarea bind:value={yamlInput} class="mono m-4 bg-slate-50 " rows="10" />
+						<div class="gap-4 flex flex-col mb-4">
+							<textarea bind:value={yamlInput} class="mono m-4 bg-slate-50 " rows="10" />
+							<div class="self-end m-4">
+								<Button on:click={convertYaml} variant="primary">Load</Button>
+							</div>
+						</div>
 					</Accordion>
 					<Accordion active={true} heading="Tasks">
 						<Tasks bind:config />

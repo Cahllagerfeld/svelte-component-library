@@ -12,8 +12,6 @@
 	let isLoadMore: boolean = false;
 	export let config: GitpodConfig;
 
-	let selectedExtensions: Map<string, VSXType.Extension> = new Map();
-
 	onMount(async () => {
 		performSearch('');
 	});
@@ -30,8 +28,6 @@
 		if (!config.vscode) config.vscode = { extensions: new Map() };
 	}
 
-	$: config.vscode.extensions = selectedExtensions;
-
 	const fetchData = async (search: string, offset: number) => {
 		const response = await fetch(
 			`https://open-vsx.org/api/-/search?query=${search}&size=10&sortBy=relevance&sortOrder=desc&offset=${offset}`
@@ -41,11 +37,11 @@
 	};
 
 	const handleInput = (extension: VSXType.Extension) => {
-		if (selectedExtensions.has(extension.url)) {
-			selectedExtensions.delete(extension.url);
-			selectedExtensions = selectedExtensions;
+		if (config.vscode.extensions.has(extension.url)) {
+			config.vscode.extensions.delete(extension.url);
+			config.vscode.extensions = config.vscode.extensions;
 		} else {
-			selectedExtensions = selectedExtensions.set(extension.url, extension);
+			config.vscode.extensions = config.vscode.extensions.set(extension.url, extension);
 		}
 	};
 	const performSearch = async (string: string) => {
@@ -56,8 +52,8 @@
 	const debouncedSearch = debounce(changeHandler, 500);
 
 	const handleSelected = (extension: VSXType.Extension) => {
-		selectedExtensions.delete(extension.url);
-		selectedExtensions = selectedExtensions;
+		config.vscode.extensions.delete(extension.url);
+		config.vscode.extensions = config.vscode.extensions;
 	};
 
 	$: data = [...data, ...newData];
@@ -83,7 +79,7 @@
 					class="hidden"
 				/>
 				<label for={extension.name}>
-					<OpenVsxExtension {extension} checked={selectedExtensions.has(extension.url)} />
+					<OpenVsxExtension {extension} checked={config.vscode.extensions.has(extension.url)} />
 				</label>
 			{/each}
 
@@ -101,19 +97,24 @@
 	<div class="md:w-1/2 w-full">
 		<div class="flex flex-col gap-4">
 			<div class="grid grid-cols-3 gap-4">
-				{#each [...selectedExtensions] as [_, extension]}
-					<input
-						class="hidden"
-						id={extension.name}
-						type="checkbox"
-						on:input={() => {
-							handleSelected(extension);
-						}}
-					/>
-					<label for={extension.name}>
-						<OpenVsxExtension {extension} checked={selectedExtensions.has(extension.url)} /></label
-					>
-				{/each}
+				{#if [...config.vscode.extensions.values()].length > 0}
+					{#each [...config.vscode.extensions] as [_, extension]}
+						<input
+							class="hidden"
+							id={extension.name}
+							type="checkbox"
+							on:input={() => {
+								handleSelected(extension);
+							}}
+						/>
+						<label for={extension.name}>
+							<OpenVsxExtension
+								{extension}
+								checked={config.vscode.extensions.has(extension.url)}
+							/></label
+						>
+					{/each}
+				{/if}
 			</div>
 		</div>
 	</div>
