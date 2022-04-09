@@ -1,6 +1,6 @@
 export const convertCommands = (array: String[]) => {
 	if (array.length < 1) {
-		return;
+		return undefined;
 	}
 	const sanitizedStrings = array.filter((el) => el);
 	if (sanitizedStrings.length < 1) {
@@ -11,8 +11,4 @@ export const convertCommands = (array: String[]) => {
 		joinedCommands = joinedCommands.concat('\n');
 	}
 	return joinedCommands;
-};
-
-export const removeCommandTaskByIndex = (array: String[], index: number) => {
-	array = array.filter((_, i) => i !== index);
 };

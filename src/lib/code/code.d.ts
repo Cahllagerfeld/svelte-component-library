@@ -1,6 +1,6 @@
 export declare interface Task {
-	init?: string;
-	command?: string;
+	init?: string[];
+	command?: string[];
 }
 
 export declare interface GitpodConfig {
@@ -9,12 +9,12 @@ export declare interface GitpodConfig {
 }
 
 export interface Vscode {
-	extensions: string[];
+	extensions: Map<string, OpenVsxExtension.Extension>;
 }
 
 declare module OpenVsxExtension {
 	export interface Files {
-		download: string;
+		download?: string;
 		icon: string;
 	}
 
@@ -26,9 +26,9 @@ declare module OpenVsxExtension {
 		version: string;
 		timestamp: Date;
 		averageRating: number;
-		downloadCount: number;
+		downloadCount?: number;
 		displayName: string;
-		description: string;
+		description?: string;
 	}
 
 	export interface RootObject {
@@ -36,4 +36,18 @@ declare module OpenVsxExtension {
 		totalSize: number;
 		extensions: Extension[];
 	}
+}
+
+export declare interface ConvertedConfig {
+	tasks?: convertedTask[];
+	vscode?: convertedVscode;
+}
+
+export declare interface convertedTask {
+	init?: string;
+	command?: string;
+}
+
+export declare interface convertedVscode {
+	extensions: string[];
 }

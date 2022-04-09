@@ -1,15 +1,13 @@
 <script lang="ts">
 	import Button from '$lib/Button/button.svelte';
-	import { convertCommands, removeCommandTaskByIndex } from '$lib/util/tasks';
-	import type { Task } from '../code';
-	export let taskObject: Task;
-
-	let commandArray = [''];
-
-	$: taskObject.command = convertCommands(commandArray);
+	export let commandSteps: string[] = [];
 
 	const addCommandTask = () => {
-		commandArray = [...commandArray, ''];
+		commandSteps = [...commandSteps, ''];
+	};
+
+	const removeCommandTaskByIndex = (index: number) => {
+		commandSteps = commandSteps.filter((_, i) => i !== index);
 	};
 </script>
 
@@ -25,7 +23,7 @@
 	>
 </p>
 
-{#each commandArray as command, index}
+{#each commandSteps as command, index}
 	<div class="flex items-center gap-4">
 		<input
 			bind:value={command}
@@ -34,7 +32,7 @@
 		/>
 		<button
 			on:click={() => {
-				removeCommandTaskByIndex(commandArray, index);
+				removeCommandTaskByIndex(index);
 			}}
 		>
 			<img src="/trash.svg" alt="trash" width="32px" />

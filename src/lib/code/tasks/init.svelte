@@ -1,13 +1,9 @@
 <script lang="ts">
 	import Button from '$lib/Button/button.svelte';
-	import { convertCommands } from '$lib/util/tasks';
-	import type { Task } from '$lib/code/code';
-	export let taskObject: Task;
+	export let initSteps: string[] = [];
 
-	$: taskObject.init = convertCommands(initArray);
-	let initArray = [''];
 	const addInitTask = () => {
-		initArray = [...initArray, ''];
+		initSteps = [...initSteps, ''];
 	};
 </script>
 
@@ -23,7 +19,7 @@
 	>
 </p>
 <div class="flex gap-4 flex-col">
-	{#each initArray as init}
+	{#each initSteps as init}
 		<input
 			bind:value={init}
 			placeholder="Your Init Script e.g. 'npm install' "

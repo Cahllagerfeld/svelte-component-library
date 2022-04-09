@@ -1,9 +1,9 @@
-const path = require('path');
-const preprocess = require('svelte-preprocess');
-// const adapter = require('@sveltejs/adapter-netlify');
+import path from 'path';
+import preprocess from 'svelte-preprocess';
+import adapter from '@sveltejs/adapter-auto';
 
 /** @type {import('@sveltejs/kit').Config} */
-module.exports = {
+const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
 	preprocess: [
@@ -13,9 +13,8 @@ module.exports = {
 	],
 
 	kit: {
-		// adapter: adapter(),
+		adapter: adapter(),
 		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte',
 		package: {
 			exports: (file) => file === 'index.ts',
 			files: (filepath) => {
@@ -29,11 +28,11 @@ module.exports = {
 			},
 			server: {
 				hmr: {
-					clientPort: process.env.HMR_HOST ? 443 : 3000,
-					host: process.env.HMR_HOST
-						? process.env.HMR_HOST.substring('https://'.length)
-						: 'localhost'
-				}
+					clientPort: process.env.GITPOD_WORKSPACE_URL ? 443 : 3000,
+					host: process.env.GITPOD_WORKSPACE_URL
+					  ? process.env.GITPOD_WORKSPACE_URL.replace("https://", "3000-")
+					  : "localhost",
+				  },
 			},
 			resolve: {
 				alias: {
@@ -43,3 +42,4 @@ module.exports = {
 		}
 	}
 };
+export default config;

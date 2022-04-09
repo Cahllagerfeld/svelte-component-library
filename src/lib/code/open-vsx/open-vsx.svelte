@@ -1,8 +1,9 @@
 <script lang="ts">
 	import InfiniteScroll from '$lib/infinite-scroll/infinite-scroll.svelte';
 	import { onMount } from 'svelte';
+	import debounce from 'lodash.debounce';
 	import OpenVsxExtension from './open-vsx-extension.svelte';
-	import type { OpenVsxExtension as VSXType, GitpodConfig } from './code';
+	import type { OpenVsxExtension as VSXType, GitpodConfig } from '../code';
 	let skip: number = 0;
 	let data: VSXType.Extension[] = [];
 	let newData: VSXType.Extension[] = [];
@@ -25,6 +26,12 @@
 		performSearch(search);
 	};
 
+	$: {
+		if (!config.vscode) config.vscode = { extensions: new Map() };
+	}
+
+	$: config.vscode.extensions = selectedExtensions;
+
 	const fetchData = async (search: string, offset: number) => {
 		const response = await fetch(
 			`https://open-vsx.org/api/-/search?query=${search}&size=10&sortBy=relevance&sortOrder=desc&offset=${offset}`
@@ -41,26 +48,19 @@
 			selectedExtensions = selectedExtensions.set(extension.url, extension);
 		}
 	};
+	const performSearch = async (string: string) => {
+		const data = await fetchData(string, skip);
+		newData = data.extensions;
+	};
+
+	const debouncedSearch = debounce(changeHandler, 500);
 
 	const handleSelected = (extension: VSXType.Extension) => {
 		selectedExtensions.delete(extension.url);
 		selectedExtensions = selectedExtensions;
 	};
 
-	const convertMapToString = (map: Map<string, VSXType.Extension>) => {
-		const values = Array.from(map.values());
-		if (values.length < 1) return;
-		const extensions = values.map((extension) => `${extension.namespace}.${extension.name}`);
-		return extensions;
-	};
-
-	const performSearch = async (string: string) => {
-		const data = await fetchData(string, skip);
-		newData = data.extensions;
-	};
-
 	$: data = [...data, ...newData];
-	$: config.vscode.extensions = convertMapToString(selectedExtensions);
 </script>
 
 <div class="flex gap-4 flex-wrap md:flex-nowrap p-8">
@@ -69,7 +69,7 @@
 			placeholder="search your extension"
 			class="shadow-lg rounded-2xl px-4 w-full py-2"
 			bind:value={search}
-			on:input={changeHandler}
+			on:input={debouncedSearch}
 		/>
 		<div bind:this={component} class="grid  grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4">
 			{#each data as extension}
