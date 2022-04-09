@@ -26,6 +26,12 @@
 		performSearch(search);
 	};
 
+	$: {
+		if (!config.vscode) config.vscode = { extensions: new Map() };
+	}
+
+	$: config.vscode.extensions = selectedExtensions;
+
 	const fetchData = async (search: string, offset: number) => {
 		const response = await fetch(
 			`https://open-vsx.org/api/-/search?query=${search}&size=10&sortBy=relevance&sortOrder=desc&offset=${offset}`
@@ -54,15 +60,7 @@
 		selectedExtensions = selectedExtensions;
 	};
 
-	const convertMapToString = (map: Map<string, VSXType.Extension>) => {
-		const values = Array.from(map.values());
-		if (values.length < 1) return;
-		const extensions = values.map((extension) => `${extension.namespace}.${extension.name}`);
-		return extensions;
-	};
-
 	$: data = [...data, ...newData];
-	$: config.vscode.extensions = convertMapToString(selectedExtensions);
 </script>
 
 <div class="flex gap-4 flex-wrap md:flex-nowrap p-8">

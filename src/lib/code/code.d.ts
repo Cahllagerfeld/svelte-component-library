@@ -9,12 +9,12 @@ export declare interface GitpodConfig {
 }
 
 export interface Vscode {
-	extensions: Set<string>;
+	extensions: Map<string, OpenVsxExtension.Extension>;
 }
 
 declare module OpenVsxExtension {
 	export interface Files {
-		download: string;
+		download?: string;
 		icon: string;
 	}
 
@@ -26,9 +26,9 @@ declare module OpenVsxExtension {
 		version: string;
 		timestamp: Date;
 		averageRating: number;
-		downloadCount: number;
+		downloadCount?: number;
 		displayName: string;
-		description: string;
+		description?: string;
 	}
 
 	export interface RootObject {

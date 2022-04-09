@@ -39,6 +39,16 @@
 			};
 		});
 
+		if (obj.vscode) {
+			const values = Array.from(obj.vscode.extensions.values());
+			if (values.length > 0) {
+				const extensions = values.map((extension) => `${extension.namespace}.${extension.name}`);
+				converted.vscode = {
+					extensions
+				};
+			}
+		}
+
 		return converted;
 	};
 
