@@ -20,6 +20,7 @@
 		"@types/lodash.debounce": "^4.0.6",
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
 		"@typescript-eslint/parser": "^4.31.1",
+		"ajv": "^8.11.0",
 		"autoprefixer": "^10.3.7",
 		"babel-loader": "^8.2.3",
 		"cssnano": "^5.0.8",
