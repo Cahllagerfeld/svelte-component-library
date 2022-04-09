@@ -10,6 +10,7 @@
 	import OpenVSX from '$lib/code/open-vsx/open-vsx.svelte';
 	import Tasks from '$lib/code/tasks/tasks.svelte';
 	import Button from '$lib/Button/button.svelte';
+	import { validate } from '$lib/util/json-validate';
 	let yamlInput: string = '';
 
 	let config: GitpodConfig = {};
@@ -24,6 +25,10 @@
 		const parsedConfig: GitpodConfig = {};
 		const yaml = Yaml.parse(yamlInput) as ConvertedConfig;
 		if (!yaml) return;
+		if (!validate(yaml)) {
+			console.log(validate.errors);
+			return;
+		}
 
 		//tasks
 		if (yaml.tasks) {
@@ -82,15 +87,15 @@
 
 		converted.tasks = obj.tasks?.map((task) => {
 			let init = task.init?.filter((el) => el).join('\n');
-			if (task.init?.length > 1) {
+			if (task.init && task.init?.length > 1) {
 				init = init.concat('\n');
 			}
-			if (init === '') init = undefined;
 			let command = task.command?.filter((el) => el).join('\n');
-			if (task.command?.length > 1) {
+			if (task.command && task.command?.length > 1) {
 				command = command.concat('\n');
 			}
 			if (command === '') command = undefined;
+			if (init === '') init = undefined;
 			return {
 				init,
 				command
