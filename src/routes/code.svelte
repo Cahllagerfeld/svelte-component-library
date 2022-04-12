@@ -11,6 +11,7 @@
 	import Tasks from '$lib/code/tasks/tasks.svelte';
 	import Button from '$lib/Button/button.svelte';
 	import { validate } from '$lib/util/json-validate';
+	import Monaco from '$lib/code/paste/monaco.svelte';
 	let yamlInput: string = '';
 
 	let config: GitpodConfig = {};
@@ -22,6 +23,7 @@
 	};
 
 	const convertYaml = async () => {
+		if (yamlInput == undefined) return;
 		const parsedConfig: GitpodConfig = {};
 		const yaml = Yaml.parse(yamlInput) as ConvertedConfig;
 		if (!yaml) return;
@@ -132,7 +134,7 @@
 				<div class="space-y-8">
 					<Accordion heading="Paste your YAML">
 						<div class="gap-4 flex flex-col mb-4">
-							<textarea bind:value={yamlInput} class="mono m-4 bg-slate-50 " rows="10" />
+							<Monaco bind:value={yamlInput} />
 							<div class="self-end m-4">
 								<Button on:click={convertYaml} variant="primary">Load</Button>
 							</div>
